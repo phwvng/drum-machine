@@ -73,6 +73,7 @@ function App() {
   return (
     <div className="App">
        <div className='container' id="drum-machine">
+       <h1>fCC Drum Machine</h1>
         <div id="display">
           {display}
           </div>
