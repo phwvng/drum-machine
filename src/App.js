@@ -50,6 +50,9 @@ const audioClips = [
 ];
 
 function App() {
+
+  const [display, setDisplay] = useState('');
+
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => {
@@ -60,21 +63,18 @@ function App() {
   const handleKeyPress = (e) => {
     const sound = audioClips.find((clip) => clip.keyTrigger === e.key.toUpperCase());
     if (sound) {
-      const soundElement = document.getElementById(sound.id);
+      const soundElement = document.getElementById(sound.keyTrigger);
       soundElement.currentTime = 0;
       soundElement.play();
-
-      const display = document.getElementById('display');
-      display.innerText = sound.id;
-
+      setDisplay(sound.id);
     }
   }
 
   return (
     <div className="App">
-      <header className="App-header">
        <div className='container' id="drum-machine">
         <div id="display">
+          {display}
           </div>
           <div className="drum-pads">
             {audioClips.map((clip) => (
@@ -82,23 +82,22 @@ function App() {
             ))}
           </div>
         </div>
-      </header>
     </div>
   );
 }
 
 function DrumPad(props) {
   const playSound = () => {
-    const sound = document.getElementById(props.id);
+    const sound = document.getElementById(props.label);
     sound.currentTime = 0;
     sound.play();
+    document.getElementById('display').innerText = props.id;
   }
 
   return (
-    <div className="drum-pad" onClick={playSound}>
-      <button> {props.label}
-      <audio className="clip" id={props.id} src={props.src}></audio>
-      </button>
+    <div className="drum-pad" onClick={playSound} id={props.id}>
+      {props.label}
+      <audio className="clip" id={props.label} src={props.src}></audio>
     </div>
   );
 }
